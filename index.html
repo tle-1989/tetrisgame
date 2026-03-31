@@ -102,7 +102,7 @@ const SHAPES={I:[[1,1,1,1]],O:[[1,1],[1,1]],T:[[0,1,0],[1,1,1]],S:[[0,1,1],[1,1,
 const PIECES=Object.keys(SHAPES);
 
 let board=Array.from({length:ROWS},()=>Array(COLS).fill(0));
-let piece,score=0,lines=0,level=1,drop=0,last=0,over=false,paused=false;
+let piece,score=0,lines=0,level=1,drop=0,last=0,over=false,paused=false,started=false;
 
 function rand(){let t=PIECES[Math.random()*7|0];return{t,shape:SHAPES[t].map(r=>[...r]),x:3,y:0}}
 function collide(s,x,y){for(let i=0;i<s.length;i++)for(let j=0;j<s[i].length;j++)if(s[i][j]){let nx=x+j,ny=y+i;if(nx<0||nx>=COLS||ny>=ROWS||ny>=0&&board[ny][nx])return true}return false}
