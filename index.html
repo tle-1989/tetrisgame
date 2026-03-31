@@ -110,16 +110,31 @@ function merge(){piece.shape.forEach((r,y)=>r.forEach((v,x)=>{if(v&&piece.y+y>=0
 function clear(){for(let y=ROWS-1;y>=0;y--){if(board[y].every(v=>v)){board.splice(y,1);board.unshift(Array(COLS).fill(0));lines++;score+=100;}}}
 function draw(){ctx.clearRect(0,0,400,800);for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){ctx.strokeStyle='#1e2747';ctx.strokeRect(x*CELL,y*CELL,CELL,CELL);if(board[y][x]){ctx.fillStyle=COLORS[board[y][x]];ctx.fillRect(x*CELL,y*CELL,CELL,CELL)}}
 if(piece){piece.shape.forEach((r,y)=>r.forEach((v,x)=>{if(v){ctx.fillStyle=COLORS[piece.t];ctx.fillRect((piece.x+x)*CELL,(piece.y+y)*CELL,CELL,CELL)}}))}}
-function step(t=0){if(over||paused)return;drop+=t-last;last=t;if(drop>600){piece.y++;if(collide(piece.shape,piece.x,piece.y)){piece.y--;merge();clear();piece=rand();if(collide(piece.shape,piece.x,piece.y))end()}drop=0}
+function step(t=0){
+if(!started || over || paused) return;drop+=t-last;last=t;if(drop>600){piece.y++;if(collide(piece.shape,piece.x,piece.y)){piece.y--;merge();clear();piece=rand();if(collide(piece.shape,piece.x,piece.y))end()}drop=0}
 draw();requestAnimationFrame(step)}
 function end(){over=true;saveScore();renderLB();}
 
 function saveScore(){let name=prompt('Name?')||'Player';let lb=JSON.parse(localStorage.getItem(KEY)||'[]');lb.push({name,score});lb.sort((a,b)=>b.score-a.score);localStorage.setItem(KEY,JSON.stringify(lb.slice(0,5)))}
 function renderLB(){let lb=JSON.parse(localStorage.getItem(KEY)||'[]');document.getElementById('leaderboard').innerHTML=lb.map((e,i)=>`<div class="entry">${i+1}. ${e.name}<span>${e.score}</span></div>`).join('')}
 
-function start(){board=Array.from({length:ROWS},()=>Array(COLS).fill(0));score=lines=0;level=1;over=false;piece=rand();last=0;requestAnimationFrame(step)}
-
+function start(){
+  board = Array.from({length:ROWS},()=>Array(COLS).fill(0));
+  score = lines = 0;
+  level = 1;
+  over = false;
+  paused = false;
+  piece = rand();
+  last = 0;
+  started = true;
+  requestAnimationFrame(step);
+}
+  
 addEventListener('keydown',e=>{
+  if(!started && e.key === 'Enter'){
+    start();
+    return;
+  }
 if(over&&e.key==='Enter')start();
 if(!piece)return;
 if(e.key==='ArrowLeft'){piece.x--;if(collide(piece.shape,piece.x,piece.y))piece.x++}
@@ -132,7 +147,7 @@ draw();
 });
 
 renderLB();
-start();
+draw();
 </script>
 </body>
 </html>
