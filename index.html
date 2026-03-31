@@ -294,7 +294,7 @@ addEventListener('keydown',e=>{
     if(collide(piece.shape,piece.x,piece.y)) piece.y--;
   }
 
-  if(e.key==='ArrowUp'){
+  if(e.key==='Shift'){
     let r=piece.shape[0].map((_,i)=>piece.shape.map(row=>row[i]).reverse());
     if(!collide(r,piece.x,piece.y)) piece.shape=r;
   }
