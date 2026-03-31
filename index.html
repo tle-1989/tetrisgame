@@ -147,7 +147,8 @@ draw();
 });
 
 renderLB();
-draw() {
+draw();   // ✅ call the function
+
 function draw(){
   ctx.clearRect(0,0,400,800);
 
@@ -174,7 +175,7 @@ function draw(){
     });
   }
 
-  // 👇 THIS PART IS WHAT YOU ADD
+  // start screen
   if(!started){
     ctx.fillStyle = "rgba(0,0,0,0.75)";
     ctx.fillRect(0,0,400,800);
@@ -185,6 +186,7 @@ function draw(){
     ctx.fillText("Press Enter to Start", 200, 400);
   }
 
+  // game over screen
   if(over){
     ctx.fillStyle = "rgba(0,0,0,0.75)";
     ctx.fillRect(0,0,400,800);
