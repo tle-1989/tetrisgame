@@ -147,62 +147,54 @@ draw();
 });
 
 renderLB();
-draw(function draw(){
+draw() {
+function draw(){
   ctx.clearRect(0,0,400,800);
 
-  // Draw board
+  // draw board
   for(let y=0;y<ROWS;y++){
     for(let x=0;x<COLS;x++){
-      ctx.strokeStyle='#1e2747';
       ctx.strokeRect(x*CELL,y*CELL,CELL,CELL);
-
       if(board[y][x]){
-        ctx.fillStyle=COLORS[board[y][x]];
+        ctx.fillStyle = COLORS[board[y][x]];
         ctx.fillRect(x*CELL,y*CELL,CELL,CELL);
       }
     }
   }
 
-  // Draw current piece
+  // draw piece
   if(piece){
     piece.shape.forEach((r,y)=>{
       r.forEach((v,x)=>{
         if(v){
-          ctx.fillStyle=COLORS[piece.t];
+          ctx.fillStyle = COLORS[piece.t];
           ctx.fillRect((piece.x+x)*CELL,(piece.y+y)*CELL,CELL,CELL);
         }
       });
     });
   }
 
-  // ===== START SCREEN =====
+  // 👇 THIS PART IS WHAT YOU ADD
   if(!started){
     ctx.fillStyle = "rgba(0,0,0,0.75)";
     ctx.fillRect(0,0,400,800);
 
-    ctx.fillStyle = "#eef2ff";
+    ctx.fillStyle = "#ffffff";
     ctx.textAlign = "center";
-
-    ctx.font = "bold 32px sans-serif";
-    ctx.fillText("Falling Blocks", 200, 320);
-
-    ctx.font = "22px sans-serif";
+    ctx.font = "bold 28px sans-serif";
     ctx.fillText("Press Enter to Start", 200, 400);
   }
 
-  // ===== GAME OVER SCREEN =====
   if(over){
     ctx.fillStyle = "rgba(0,0,0,0.75)";
     ctx.fillRect(0,0,400,800);
 
-    ctx.fillStyle = "#eef2ff";
+    ctx.fillStyle = "#ffffff";
     ctx.textAlign = "center";
-
-    ctx.font = "bold 32px sans-serif";
+    ctx.font = "bold 28px sans-serif";
     ctx.fillText("Game Over", 200, 360);
 
     ctx.font = "20px sans-serif";
     ctx.fillText("Press Enter to Restart", 200, 420);
   }
 }
-)
