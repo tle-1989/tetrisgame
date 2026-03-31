@@ -1,3 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Falling Blocks</title>
+<style>
+:root {
+  --bg:#0b1020; --panel:#151c33; --text:#eef2ff; --muted:#9aa6d1; --border:#2b3764; --accent:#7dd3fc;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:system-ui}
+
+.app{
+  width:900px;
+  height:900px;
+  display:grid;
+  grid-template-columns:520px 1fr;
+  gap:12px;
+  padding:12px;
+}
+
+.panel,.card{
+  background:rgba(21,28,51,.95);
+  border:1px solid var(--border);
+  border-radius:14px;
+}
+
+.panel{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+canvas{
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:#0a1020;
+}
+
+#board{width:400px;height:800px}
+
+.sidebar{display:grid;grid-template-rows:auto auto 1fr;gap:10px;height:100%}
+.card{padding:10px;overflow:hidden}
+
+h1{font-size:1rem;margin:0 0 6px}
+.sub{font-size:.8rem;color:var(--muted)}
+
+.stat{display:flex;justify-content:space-between;font-size:.85rem;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,.03)}
+
+.leaderboard{display:grid;gap:6px;font-size:.8rem}
+.entry{display:flex;justify-content:space-between;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,.03)}
+
+.kbd{background:#10172d;padding:2px 6px;border-radius:6px;border:1px solid var(--border);font-weight:bold;margin-right:4px}
+.keys{font-size:.8rem;color:var(--muted);display:grid;gap:6px}
+
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="panel">
+<canvas id="board" width="400" height="800" tabindex="0"></canvas>
+</div>
+
+<div class="sidebar">
+
+<div class="card">
+<h1>Falling Blocks</h1>
+<div class="sub">Click game first</div>
+<div class="stat"><span>Score</span><span id="score">0</span></div>
+<div class="stat"><span>Lines</span><span id="lines">0</span></div>
+<div class="stat"><span>Level</span><span id="level">1</span></div>
+</div>
+
+<div class="card">
+<h1>Controls</h1>
+<div class="keys">
+<div><span class="kbd">← →</span>Move</div>
+<div><span class="kbd">↑</span>Rotate</div>
+<div><span class="kbd">↓</span>Drop</div>
+<div><span class="kbd">Space</span>Hard</div>
+<div><span class="kbd">P</span>Pause</div>
+</div>
+</div>
+
+<div class="card">
+<h1>Top 5</h1>
+<div id="leaderboard" class="leaderboard"></div>
+</div>
+
+</div>
+</div>
+
 <script>
 const COLS=10,ROWS=20,CELL=40,KEY='tetris900';
 const boardEl=document.getElementById('board');
